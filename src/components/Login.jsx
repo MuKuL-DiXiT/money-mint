@@ -2,8 +2,19 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase/firebaseConfig";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useAuthState } from "react-firebase-hooks/auth"; 
+
 export default function Login() {
   const navigate = useNavigate();
+  const [user] = useAuthState(auth); // get user state
+
+useEffect(() => {
+  if (user) {
+    navigate("/");
+  }
+}, [user]);
+
   const loginWithGoogle = async () => {
     try {
       await signInWithPopup(auth, provider);
@@ -11,9 +22,7 @@ export default function Login() {
       console.error("Login failed", err);
     }
   };
-  useEffect(() => {
-  if (user) navigate('/');
-}, [user]);
+  
 
 
   return (
