@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth"; 
 
+
 export default function Login() {
   const navigate = useNavigate();
   const [user] = useAuthState(auth); // get user state
