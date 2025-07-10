@@ -7,7 +7,7 @@ import { auth } from "../firebase/firebaseConfig";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function Home() {
+export default function Home({dark}) {
   const [user] = useAuthState(auth);
   const sectionRefs = useRef([]);
   sectionRefs.current = [];
@@ -57,11 +57,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="text-white font-inter relative">
+    <div className="text-white relative">
       <div className="fixed top-0 left-0 w-full h-full bg-gradient-to-r from-indigo-800/20 via-teal-900/30 to-purple-800/20 animate-backgroundBlur z-0"></div>
 
       {/* SECTION 1 */}
-      <section ref={addToRefs} className="min-h-screen flex flex-col justify-center items-center px-6 py-16 text-center relative z-10 overflow-hidden bg-gradient-to-br from-teal-700 to-teal-900">
+      <section ref={addToRefs} className={`min-h-screen flex flex-col justify-center items-center px-6 py-16 text-center relative z-10 overflow-hidden bg-gradient-to-br ${(dark)?"from-teal-800 to-black":"from-amber-300 to-blue-500"}`}>
         <style>{`
           @keyframes move-pattern {
             from { background-position: 0 0; }
@@ -78,7 +78,7 @@ export default function Home() {
             animation: move-pattern 60s linear infinite;
           }
         `}</style>
-        <h1 className="text-6xl sm:text-7xl font-extrabold mb-6 bg-gradient-to-r from-white via-cyan-300 to-teal-100 text-transparent bg-clip-text animate-pulse">
+        <h1 className="text-6xl font-sans sm:text-7xl font-extrabold mb-6 bg-gradient-to-r from-white via-cyan-300 to-teal-100 text-transparent bg-clip-text animate-pulse">
           Welcome to MoneyMint 💸
         </h1>
         <p className="text-lg sm:text-xl max-w-2xl mb-8 leading-relaxed">
@@ -95,8 +95,8 @@ export default function Home() {
       </section> 
 
       {/* SECTION 2 */}
-      <section ref={addToRefs} className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-cyan-700 to-blue-900 px-6 py-16 text-center relative z-10">
-        <h2 className="text-4xl sm:text-5xl  font-extrabold mb-16 bg-gradient-to-r from-white via-cyan-300 to-teal-100 text-transparent bg-clip-text animate-pulse">
+      <section ref={addToRefs} className={`min-h-screen flex flex-col items-center justify-center bg-gradient-to-br ${(dark)?"from-cyan-700 to-blue-900":"from-red-300 to-zinc-950"} px-6 py-16 text-center relative z-10`}>
+        <h2 className="text-4xl font-sans sm:text-5xl  font-extrabold mb-16 bg-gradient-to-r from-white via-cyan-300 to-teal-100 text-transparent bg-clip-text animate-pulse">
           ✨ Explore Money Mint
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl w-full">
@@ -107,8 +107,8 @@ export default function Home() {
       </section>
 
       {/* SECTION 3 */}
-      <section ref={addToRefs} className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-700 to-fuchsia-900 px-6 py-16 text-center relative z-10">
-        <h2 className="text-4xl sm:text-5xl font-extrabold mb-6 bg-gradient-to-r from-white via-cyan-300 to-teal-100 text-transparent bg-clip-text animate-pulse">
+      <section ref={addToRefs} className={`min-h-screen flex flex-col items-center justify-center bg-gradient-to-br ${(dark)?"from-purple-700 to-fuchsia-900":"from-purple-300 to-fuchsia-950"} px-6 py-16 text-center relative z-10`}>
+        <h2 className="text-4xl font-sans sm:text-5xl font-extrabold mb-6 bg-gradient-to-r from-white via-cyan-300 to-teal-100 text-transparent bg-clip-text animate-pulse">
           🔓 Ready to take control?
         </h2>
         <p className="text-lg sm:text-xl max-w-2xl mb-10 leading-relaxed">

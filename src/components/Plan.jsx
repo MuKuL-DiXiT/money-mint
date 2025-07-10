@@ -9,7 +9,7 @@ import { Brain, Save, Plus, Trash2 } from 'lucide-react';
 import { gsap } from "gsap"; // Import GSAP
 import { NavLink } from "react-router-dom";
 
-export default function CreatePlan() {
+export default function CreatePlan({ dark }) {
   const [user] = useAuthState(auth);
   const [entries, setEntries] = useState([]);
   const [timePeriod, setTimePeriod] = useState("Monthly");
@@ -248,13 +248,14 @@ export default function CreatePlan() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-slate-100 text-gray-800 p-4 md:p-8 md:pl-24 pb-20 md:pb-8"> {/* Light background */}
+    <div className={`min-h-screen flex flex-col justify-center items-center w-full bg-gradient-to-br ${(dark) ? "from-teal-900 to-black" : "from-white to-yellow-200"} text-gray-800 p-4 md:p-8 md:pl-24 pb-20 md:pb-8`}>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
 
-      <h1 className="text-4xl font-extrabold mb-8 text-center text-teal-700 drop-shadow-lg">🎯 Create Your Smart Plan</h1>
-
+      <h1 className={`text-3xl font-sans sm:text-5xl font-extrabold mb-6 bg-gradient-to-r ${(dark)?"from-white via-cyan-300 to-teal-100":"from-black via-cyan-300 to-teal-800"} text-transparent bg-clip-text animate-pulse`}>
+        ⛳︎Create your plan
+      </h1>
       {/* AI Plan Generation Section */}
-      <div ref={aiSectionRef} className="bg-teal-800 p-6 rounded-2xl shadow-xl mb-10 border border-teal-700 text-white">
+      <div ref={aiSectionRef} className="bg-teal-800 w-full sm:w-3/4 md:2/3 px-5 p-6 rounded-2xl shadow-xl mb-10 border border-teal-700 text-white">
         <h2 className="text-2xl font-bold mb-5 text-teal-200 flex items-center gap-3">
           <Brain className="w-7 h-7 text-teal-300" /> Generate AI Plan
         </h2>
@@ -329,7 +330,7 @@ export default function CreatePlan() {
       </div>
 
       {/* Manual Plan Creation Section */}
-      <div ref={manualSectionRef} className="bg-teal-800 p-6 rounded-2xl shadow-xl border border-teal-700 text-white">
+      <div ref={manualSectionRef} className="bg-teal-800 p-6 w-full sm:w-2/3 md:1/2 px-5 rounded-2xl shadow-xl border border-teal-700 text-white">
         <h2 className="text-2xl font-bold mb-5 text-teal-200 flex items-center gap-3">
           <Plus className="w-7 h-7 text-teal-300" /> Manually Create Plan
         </h2>
@@ -404,7 +405,7 @@ export default function CreatePlan() {
           )}
         </button>
       </div>
-      <NavLink to="/allplans" ref={planbutton} className="mt-8 w-full bg-gradient-to-tr from-blue-700 to-green-600 text-white font-semibiz py-3 rounded-xl shadow-lg hover:bg-gradient-to-bl hover:from-blue-700 hover:to-teal-800 transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+      <NavLink to="/allplans" ref={planbutton} className="mt-8 px-5 bg-gradient-to-tr from-blue-700 to-green-600 text-white font-semibiz py-3 rounded-xl shadow-lg hover:bg-gradient-to-bl hover:from-blue-700 hover:to-teal-800 transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
       >Show Existing Plans</NavLink>
     </div>
   );

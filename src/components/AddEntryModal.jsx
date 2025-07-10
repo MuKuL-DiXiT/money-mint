@@ -6,7 +6,7 @@ import { auth } from "../firebase/firebaseConfig";
 import { PlusCircle } from "lucide-react";
 import gsap from "gsap";
 
-export default function AddEntryModal() {
+export default function AddEntryModal({dark}) {
   const [user] = useAuthState(auth);
   const modalRef = useRef(null);
   const [amount, setAmount] = useState("");
@@ -22,7 +22,7 @@ export default function AddEntryModal() {
         y: 0,
         scale: 1,
         duration: 2,
-        ease: "back.out(7)", // more dramatic bounce effect
+        ease: "back.out(10)", // more dramatic bounce effect
       }
     );
   }, []);
@@ -61,7 +61,8 @@ export default function AddEntryModal() {
   };
 
   return (
-    <div ref={modalRef} className="bg-teal-950 text-black p-8 rounded-2xl shadow-xl max-w-md mx-auto mt-20 space-y-5 transition-all duration-300 hover:shadow-2xl">
+    <div className={`w-full h-screen flex justify-center items-center bg-gradient-to-br ${(dark)?'from-teal-900 to-black':'from-white to-yellow-200'}`}>
+      <div ref={modalRef} className="bg-teal-950 text-black p-8 rounded-2xl shadow-xl max-w-md mx-auto mb-20 space-y-5 transition-all duration-300 hover:shadow-2xl">
       <div className="flex items-center gap-2 mb-2">
         <PlusCircle className="text-teal-600 w-6 h-6" />
         <h2 className="text-xl font-bold text-teal-700">Add a New Entry</h2>
@@ -97,6 +98,8 @@ export default function AddEntryModal() {
       >
         ➕ Add Entry
       </button>
+    </div>
+
     </div>
   );
 }

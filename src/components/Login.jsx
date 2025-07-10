@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth"; 
 
 
-export default function Login() {
+export default function Login({dark}) {
   const navigate = useNavigate();
   const [user] = useAuthState(auth); // get user state
 
@@ -27,7 +27,7 @@ useEffect(() => {
 
 
   return (
-    <div className="flex h-screen items-center justify-center  bg-gradient-to-br from-teal-900 via-teal-950 to-black text-white relative overflow-hidden font-inter">
+    <div className={`flex h-screen items-center justify-center  bg-gradient-to-br ${(dark)?"from-teal-900 via-teal-950 to-black":"from-amber-300 to-blue-500"} text-white relative overflow-hidden font-inter`}>
       {/* Animated Background Pattern */}
       <div className="absolute inset-0 z-0 opacity-5 animate-gradient">
         <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -43,7 +43,7 @@ useEffect(() => {
 
       {/* Button Container */}
       <div className="z-10 flex flex-col items-center text-center space-y-6">
-        <h1 className="text-4xl sm:text-5xl font-bold drop-shadow-lg">Welcome to <span className="text-emerald-400">MoneyMint</span> 💸</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold font-sans drop-shadow-lg">Welcome to <span className="text-emerald-400">MoneyMint</span> 💸</h1>
         <p className="text-lg text-gray-300 max-w-md mx-auto">Track your mindset-based spending with clarity.</p>
 
         <button

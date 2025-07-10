@@ -7,26 +7,28 @@ import Plan from "./components/Plan";
 import AllPlan from "./components/allplans";
 import Navbar from "./components/Navbar";
 import PrivateRoute from "./components/PrivateRoute";
+import { useState } from "react";
 
 export default function App() {
+  const [dark, setDark] = useState(false);
   return (
     <>
-      <Navbar />
+      <Navbar dark = {dark} setDark = {setDark} />
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home dark = {dark}/>} />
+        <Route path="/login" element={<Login dark = {dark}/>} />
         <Route path="/dashboard" element={
-          <PrivateRoute><Dashboard /></PrivateRoute>
+          <PrivateRoute><Dashboard dark = {dark}/></PrivateRoute>
         } />
         <Route path="/add" element={
-          <PrivateRoute><AddEntry /></PrivateRoute>
+          <PrivateRoute><AddEntry dark = {dark}/></PrivateRoute>
         } />
         
         <Route path="/createplan" element={
-          <PrivateRoute><Plan /></PrivateRoute>
+          <PrivateRoute><Plan dark = {dark}/></PrivateRoute>
         } />
         <Route path="/allplans" element={
-          <PrivateRoute><AllPlan /></PrivateRoute>
+          <PrivateRoute><AllPlan dark = {dark}/></PrivateRoute>
         } />
       </Routes>
     </>

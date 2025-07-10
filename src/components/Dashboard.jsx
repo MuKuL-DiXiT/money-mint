@@ -21,86 +21,87 @@ const pieColors = {
 };
 
 // Simple pie chart component
-const SimplePieChart = ({ data }) => {
-  const total = data.reduce((sum, item) => sum + item.value, 0);
-  let currentAngle = 0;
 
-  if (total === 0) {
+
+
+export default function Dashboard({ dark }) {
+  const SimplePieChart = ({ data }) => {
+    const total = data.reduce((sum, item) => sum + item.value, 0);
+    let currentAngle = 0;
+
+    if (total === 0) {
+      return (
+        <div className="w-full max-w-lg mx-auto text-center text-gray-400 py-16">
+          <p>No spending data for the selected time period.</p>
+        </div>
+      );
+    }
+
     return (
-      <div className="w-full max-w-lg mx-auto text-center text-gray-400 py-16">
-        <p>No spending data for the selected time period.</p>
-      </div>
-    );
-  }
+      <div className="w-full max-w-lg mx-auto">
+        <div className="relative w-64 h-64 mx-auto mb-8">
+          <svg width="256" height="256" viewBox="0 0 256 256" className="transform -rotate-90">
+            {data.length === 1 ? (
+              <circle
+                cx="128"
+                cy="128"
+                r="100"
+                fill={pieColors[data[0].name] || "#ccc"}
+              />
+            ) : (
+              data.map((item, index) => {
+                const percentage = item.value / total;
+                const angle = percentage * 360;
+                const startAngle = currentAngle;
+                currentAngle += angle;
 
-  return (
-    <div className="w-full max-w-lg mx-auto">
-      <div className="relative w-64 h-64 mx-auto mb-8">
-        <svg width="256" height="256" viewBox="0 0 256 256" className="transform -rotate-90">
-          {data.length === 1 ? (
-            <circle
-              cx="128"
-              cy="128"
-              r="100"
-              fill={pieColors[data[0].name] || "#ccc"}
-            />
-          ) : (
-            data.map((item, index) => {
-              const percentage = item.value / total;
-              const angle = percentage * 360;
-              const startAngle = currentAngle;
-              currentAngle += angle;
+                const startX = 128 + 100 * Math.cos((startAngle * Math.PI) / 180);
+                const startY = 128 + 100 * Math.sin((startAngle * Math.PI) / 180);
+                const endX = 128 + 100 * Math.cos(((startAngle + angle) * Math.PI) / 180);
+                const endY = 128 + 100 * Math.sin(((startAngle + angle) * Math.PI) / 180);
+                const largeArcFlag = angle > 180 ? 1 : 0;
 
-              const startX = 128 + 100 * Math.cos((startAngle * Math.PI) / 180);
-              const startY = 128 + 100 * Math.sin((startAngle * Math.PI) / 180);
-              const endX = 128 + 100 * Math.cos(((startAngle + angle) * Math.PI) / 180);
-              const endY = 128 + 100 * Math.sin(((startAngle + angle) * Math.PI) / 180);
-              const largeArcFlag = angle > 180 ? 1 : 0;
+                const pathData = [
+                  `M 128 128`,
+                  `L ${startX} ${startY}`,
+                  `A 100 100 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+                  `Z`,
+                ].join(" ");
 
-              const pathData = [
-                `M 128 128`,
-                `L ${startX} ${startY}`,
-                `A 100 100 0 ${largeArcFlag} 1 ${endX} ${endY}`,
-                `Z`,
-              ].join(" ");
+                return (
+                  <path
+                    key={index}
+                    d={pathData}
+                    fill={pieColors[item.name] || "#ccc"}
+                    stroke="white"
+                    strokeWidth="2"
+                    className="hover:opacity-80 transition-opacity"
+                  />
+                );
+              })
+            )}
+          </svg>
+        </div>
 
-              return (
-                <path
-                  key={index}
-                  d={pathData}
-                  fill={pieColors[item.name] || "#ccc"}
-                  stroke="white"
-                  strokeWidth="2"
-                  className="hover:opacity-80 transition-opacity"
-                />
-              );
-            })
-          )}
-        </svg>
-      </div>
-
-      {/* Legend */}
-      <div className="w-full">
-        <div className="flex flex-wrap justify-center gap-4 text-sm">
-          {data.map((item, index) => (
-            <div key={index} className="flex items-center gap-2">
-              <div
-                className="w-3 h-3 rounded-full"
-                style={{ backgroundColor: pieColors[item.name] || "#ccc" }}
-              ></div>
-              <span className="text-gray-700 font-medium">
-                {item.name} (₹{item.value.toLocaleString()})
-              </span>
-            </div>
-          ))}
+        {/* Legend */}
+        <div className="w-full">
+          <div className="flex flex-wrap justify-center gap-4 text-sm">
+            {data.map((item, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <div
+                  className="w-3 h-3 rounded-full"
+                  style={{ backgroundColor: pieColors[item.name] || "#ccc" }}
+                ></div>
+                <span className="text-gray-700 font-medium">
+                  {item.name} (₹{item.value.toLocaleString()})
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
-  );
-};
-
-
-export default function Dashboard() {
+    );
+  };
   const [user] = useAuthState(auth);
   const [allEntries, setAllEntries] = useState([]); // Stores all entries fetched based on timeFilter
   const [purposeFilter, setPurposeFilter] = useState("all"); // Renamed 'filter' to 'purposeFilter'
@@ -309,11 +310,11 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-blue-100 pb-20 md:pb-0">
+    <div className={`min-h-screen bg-gradient-to-br ${(dark) ? "from-teal-900 to-black" : "from-white to-yellow-200"} pb-20 md:pb-0`}>
       {/* Header */}
-      <div ref={headerRef} className="bg-white shadow-lg">
+      <div ref={headerRef} className="bg-white/60 mx-16 rounded-b-lg shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl sm:text-4xl font-bold text-teal-800 text-center">
+          <h1 className="text-3xl sm:text-4xl font-bold text-teal-800 font-sans text-center">
             💸 Spending Dashboard
           </h1>
           {/* Show total spending */}
@@ -350,7 +351,7 @@ export default function Dashboard() {
         {/* Chart Section */}
         <div
           ref={chartRef}
-          className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-8"
+          className={`${(dark)?"bg-black/40":"bg-white"} rounded-2xl shadow-xl p-6 sm:p-8 mb-8`}
         >
           <h2 className="text-xl sm:text-2xl font-bold text-teal-800 text-center mb-6">
             🧮 Spending Breakdown
