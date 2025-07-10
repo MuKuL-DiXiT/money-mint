@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Brain, Save, Plus, Trash2 } from 'lucide-react';
 import { gsap } from "gsap"; // Import GSAP
+import { NavLink } from "react-router-dom";
 
 export default function CreatePlan() {
   const [user] = useAuthState(auth);
@@ -403,8 +404,8 @@ export default function CreatePlan() {
           )}
         </button>
       </div>
-      <button ref={planbutton} className="mt-8 w-full bg-gradient-to-tr from-blue-700 to-green-600 text-white font-semibiz py-3 rounded-xl shadow-lg hover:bg-gradient-to-bl hover:from-blue-700 hover:to-teal-800 transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-      >Show Existing Plans</button>
+      <NavLink to="/allplans" ref={planbutton} className="mt-8 w-full bg-gradient-to-tr from-blue-700 to-green-600 text-white font-semibiz py-3 rounded-xl shadow-lg hover:bg-gradient-to-bl hover:from-blue-700 hover:to-teal-800 transition-all duration-300 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+      >Show Existing Plans</NavLink>
     </div>
   );
 }
