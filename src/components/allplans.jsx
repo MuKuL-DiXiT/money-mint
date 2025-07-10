@@ -6,7 +6,7 @@ import gsap from "gsap";
 import { jsPDF } from "jspdf";
 import { Trash2 } from "lucide-react";
 
-export default function AllPlans() {
+export default function AllPlans({ dark }) {
   const [user] = useAuthState(auth);
   const [plans, setPlans] = useState([]);
   const containerRef = useRef(null);
@@ -78,14 +78,14 @@ export default function AllPlans() {
       <div
         key={plan.id}
         ref={(el) => (planRefs.current[plan.id] = el)}
-        className="bg-white text-black p-6 rounded-2xl shadow-xl w-full max-w-2xl transition-all"
+        className={`${(dark) ? "bg-white/40" : "bg-white"} text-black p-6 rounded-2xl shadow-xl w-full max-w-2xl transition-all`}
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-2xl font-bold text-teal-800">{plan.timePeriod} Plan</h2>
           <div className="flex gap-2">
             <button
               onClick={() => downloadPlan(plan)}
-              className="text-sm bg-teal-600 text-white px-4 py-1 rounded-full hover:bg-teal-700"
+              className="text-sm  bg-teal-600 text-white px-4 py-1 rounded-full hover:bg-teal-700"
             >
               Download PDF
             </button>
@@ -101,11 +101,16 @@ export default function AllPlans() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead>
-              <tr className="bg-teal-100 text-teal-900">
-                <th className="py-2 px-3">Category</th>
-                <th className="py-2 px-3">Allocated Amount</th>
+              <tr className="bg-transparent">
+                <th className="py-2 px-3">
+                  <div className="bg-teal-100 text-teal-900 rounded-full px-4 py-2">Category</div>
+                </th>
+                <th className="py-2 px-3">
+                  <div className="bg-teal-100 text-teal-900 rounded-full px-4 py-2">Allocated Amount</div>
+                </th>
               </tr>
             </thead>
+
             <tbody>
               {plan.plan.map((item, index) => (
                 <tr key={index} className="border-b border-gray-200">
@@ -117,7 +122,7 @@ export default function AllPlans() {
           </table>
         </div>
 
-        <div className="text-right mt-4 font-semibold text-teal-700">
+        <div className="text-right mt-4 font-semibold text-black">
           Total: ₹{total}
         </div>
       </div>
@@ -125,9 +130,11 @@ export default function AllPlans() {
   };
 
   return (
-    <div className="min-h-screen bg-teal-950 text-white px-6 py-10">
-      <h1 className="text-4xl font-bold text-center mb-10">📋 Your Spending Plans</h1>
+    <div className={`min-h-screen flex flex-col justify-center items-center gap-4 bg-gradient-to-br ${(dark) ? 'from-teal-900 to-black' : 'from-white to-yellow-200'} text-white px-6 py-10`}>
 
+      <h1 className={`text-3xl font-sans sm:text-5xl font-extrabold mb-6 bg-gradient-to-r ${(dark) ? "from-white via-cyan-300 to-teal-100" : "from-black via-cyan-300 to-teal-800"} text-transparent bg-clip-text animate-pulse`}>
+        📋 Your Plans
+      </h1>
       <div
         ref={containerRef}
         className="flex flex-col lg:flex-row justify-center gap-8 items-start flex-wrap"
