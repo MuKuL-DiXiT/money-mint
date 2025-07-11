@@ -55,15 +55,7 @@ export default function Navbar({ dark, setDark }) {
                   >
                     Dashboard
                   </Link>
-                  <Link
-                    to="/add"
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${dark
-                      ? 'hover:bg-gray-700 hover:text-blue-300'
-                      : 'hover:bg-black/30 hover:text-yellow-200'
-                      }`}
-                  >
-                    Add
-                  </Link>
+                  
                   <Link
                     to="/createplan"
                     className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${dark
@@ -165,16 +157,7 @@ export default function Navbar({ dark, setDark }) {
                 >
                   Dashboard
                 </Link>
-                <Link
-                  to="/add"
-                  onClick={toggleMenu}
-                  className={`block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200 ${dark
-                    ? 'text-white hover:bg-gray-700 hover:text-blue-300'
-                    : 'text-black hover:bg-black/30'
-                    }`}
-                >
-                  Add
-                </Link>
+                
                 <Link
                   to="/createplan"
                   onClick={toggleMenu}

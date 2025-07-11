@@ -3,7 +3,8 @@ import { collection, query, where, deleteDoc, getDocs, doc, Timestamp } from "fi
 import { db, auth } from "../firebase/firebaseConfig";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Tag } from 'lucide-react';
-import { gsap } from "gsap"; // Import GSAP
+import { gsap } from "gsap";
+import { NavLink } from "react-router-dom";
 
 // Stable color scheme - subtle colors
 const purposeColors = {
@@ -311,6 +312,15 @@ export default function Dashboard({ dark }) {
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${(dark) ? "from-teal-900 to-black" : "from-white to-yellow-200"} pb-20 md:pb-0`}>
+      <style>{`
+        .text-shine-on-hover {
+            transition: text-shadow 0.3s ease-out, transform 0.3s ease-out;
+          }
+          .text-shine-on-hover:hover {
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.7), 0 0 15px rgba(255, 255, 255, 0.4);
+            transform: translateY(-2px);
+          }
+      `}</style>
       {/* Header */}
       <div ref={headerRef} className="bg-white/60 mx-16 rounded-b-lg shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -333,25 +343,29 @@ export default function Dashboard({ dark }) {
       {/* Main Content Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Time Filters */}
-        <div ref={timeFiltersRef} className="flex justify-center mb-8 gap-2 sm:gap-4 flex-wrap px-4">
-          {["allTime", "lastDay", "last7days", "lastMonth"].map((timeTag) => (
-            <button
-              key={timeTag}
-              onClick={() => setTimeFilter(timeTag)}
-              className={`px-4 py-2 rounded-full border-2 font-semibold transition-all duration-300 transform hover:scale-105 ${timeFilter === timeTag
-                ? "bg-teal-600 text-white border-teal-600 shadow-lg"
-                : "bg-white text-teal-600 border-teal-300 hover:bg-teal-50"
-                }`}
-            >
-              {timeTag === "allTime" ? "All Time" : timeTag === "lastDay" ? "Last Day" : timeTag === "last7days" ? "Last 7 Days" : "Last Month"}
-            </button>
-          ))}
+        <div className="flex flex-col  justify-center sm:justify-between items-center">
+          <div ref={timeFiltersRef} className="flex justify-center mb-8 gap-2 sm:gap-4 flex-wrap px-4">
+            {["allTime", "lastDay", "last7days", "lastMonth"].map((timeTag) => (
+              <button
+                key={timeTag}
+                onClick={() => setTimeFilter(timeTag)}
+                className={`px-4 py-2 rounded-full border-2 font-semibold transition-all duration-300 transform hover:scale-105 ${timeFilter === timeTag
+                  ? "bg-teal-600 text-white border-teal-600 shadow-lg"
+                  : "bg-white text-teal-600 border-teal-300 hover:bg-teal-50"
+                  }`}
+              >
+                {timeTag === "allTime" ? "All Time" : timeTag === "lastDay" ? "Last Day" : timeTag === "last7days" ? "Last 7 Days" : "Last Month"}
+              </button>
+            ))}
+          </div>
+          <NavLink to='/add' className={`text-black text-center px-16  py-2 bordrer-2 animate-pulse shadow-lg text-shine-on-hover shadow-black mb-8 rounded-full ${dark ? "bg-yellow-500 border-yellow-500" : "bg-red-700 border-red-700"}`}>Add Spendings + </NavLink>
         </div>
+
 
         {/* Chart Section */}
         <div
           ref={chartRef}
-          className={`${(dark)?"bg-black/40":"bg-white"} rounded-2xl shadow-xl p-6 sm:p-8 mb-8`}
+          className={`${(dark) ? "bg-black/40" : "bg-white"} rounded-2xl shadow-xl p-6 sm:p-8 mb-8`}
         >
           <h2 className="text-xl sm:text-2xl font-bold text-teal-800 text-center mb-6">
             🧮 Spending Breakdown
@@ -365,6 +379,7 @@ export default function Dashboard({ dark }) {
         </div>
 
         {/* Purpose Filters */}
+
         <div ref={purposeFiltersRef} className="flex justify-center mb-8 gap-2 sm:gap-4 flex-wrap px-4">
           {["all", "useful", "important", "useless", "impulse"].map((tag) => (
             <button
@@ -379,7 +394,6 @@ export default function Dashboard({ dark }) {
             </button>
           ))}
         </div>
-
         {/* Entries Grid */}
         {displayedEntries.length === 0 ? ( // Check displayedEntries for empty state
           <div className="text-center py-16">
